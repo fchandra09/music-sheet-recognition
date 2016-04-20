@@ -31,6 +31,8 @@ for column = 1 : size(row_pixel_sum, 2)
     if row_pixel_sum(column) == row_image_height && black_pixel_found == true
         black_pixel_found = false;
 
+        % TODO: If the segment contains more than one notes, separate them.
+
         max_x = column;
         min_y = 1;
         max_y = row_image_height;
@@ -53,7 +55,7 @@ for column = 1 : size(row_pixel_sum, 2)
 
         % Calculate max y
         for row = size(column_pixel_sum, 1) : -1 : 1
-            if column_pixel_sum(row) < notation_segment_widtj
+            if column_pixel_sum(row) < notation_segment_width
                 max_y = row + 1;
                 if (max_y > notation_segment_height)
                     max_y = notation_segment_height;

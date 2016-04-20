@@ -69,7 +69,7 @@ end
 staff_lines = reshape(staff_lines, [5, size(staff_lines, 1) / 5]);
 staff_lines = staff_lines';
 
-if (display_intermediate_result)
+if display_intermediate_result
     figure('Name', 'Cleaned Image');
     imshow(image);
 end
