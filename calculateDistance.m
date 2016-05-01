@@ -1,6 +1,14 @@
+% Use trining set to detect the actual notes
+%
+% INPUT:
+%   img (matrix): Note Image
+%   train_data (cell): a cell of X-by-X matrices of training images
+%
+% OUTPUT:
+%   match (double): the matching notes
+%   graph (matrix): the matching training image
+%   rate (double): the matching rate
 function [match, graph, rate] = calculateDistance(img, train_data)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
 
 nfiles = size(train_data, 2);
 scores = zeros(nfiles, 1); 

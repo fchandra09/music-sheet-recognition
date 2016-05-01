@@ -1,3 +1,11 @@
+% Read the two sets of training data
+%
+% INPUT:
+%   None
+%
+% OUTPUT:
+%   simple_data (cell): a cell of X-by-X matrices of simple training images
+%   complex_data (cell): a cell of X-by-X matrices of complex training images
 function [simple_data, complex_data] = read_training_data()
 
 imagefiles = dir('train_simple/*.jpeg');  
