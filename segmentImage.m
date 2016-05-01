@@ -15,6 +15,8 @@
 
 function boundaries = segmentImage(image, staff_lines, display_intermediate_result)
 
+[image_height, image_width] = size(image);
+
 % Get the line height using the max value
 line_height = 0;
 for column = 1 : (size(staff_lines, 2) - 1)
@@ -36,8 +38,8 @@ for row = 1 : size(staff_lines, 1)
     end
 
     row_max_y = staff_lines(row, 5) + (2 * line_height);
-    if row_max_y > size(image, 1)
-        row_max_y = size(image, 1);
+    if row_max_y > image_height
+        row_max_y = image_height;
     end
 
     row_boundaries = segmentRow(image(row_min_y : row_max_y, :));
@@ -50,9 +52,21 @@ for row = 1 : size(staff_lines, 1)
 end
 
 if display_intermediate_result
+    min_x_boundaries = boundaries(:, 1) - 1;
+    min_x_boundaries (min_x_boundaries < 1) = 1;
+
+    max_x_boundaries = boundaries(:, 2) + 1;
+    max_x_boundaries ( max_x_boundaries > image_width) = image_width;
+
+    min_y_boundaries = boundaries(:, 3) - 1;
+    min_y_boundaries (min_y_boundaries < 1) = 1;
+
+    max_y_boundaries = boundaries(:, 4) + 1;
+    max_y_boundaries (max_y_boundaries > image_height) = image_height;
+
     figure('Name', 'Segmented Image'), imagesc(image), axis off, colormap(gray), truesize, hold on;
-    plot([boundaries(:, 1) boundaries(:, 2)]', [boundaries(:, 3) boundaries(:, 3)]', 'r');
-    plot([boundaries(:, 1) boundaries(:, 2)]', [boundaries(:, 4) boundaries(:, 4)]', 'r');
-    plot([boundaries(:, 1) boundaries(:, 1)]', [boundaries(:, 3) boundaries(:, 4)]', 'r');
-    plot([boundaries(:, 2) boundaries(:, 2)]', [boundaries(:, 3) boundaries(:, 4)]', 'r');
+    plot([min_x_boundaries max_x_boundaries]', [min_y_boundaries min_y_boundaries]', 'r');
+    plot([min_x_boundaries max_x_boundaries]', [max_y_boundaries max_y_boundaries]', 'r');
+    plot([min_x_boundaries min_x_boundaries]', [min_y_boundaries max_y_boundaries]', 'r');
+    plot([max_x_boundaries max_x_boundaries]', [min_y_boundaries max_y_boundaries]', 'r');
 end
