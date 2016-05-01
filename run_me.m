@@ -1,9 +1,7 @@
-%% Get Training data
-[simple_train, complex_train] = read_training_data();
-
 %% Input
 input_folder = 'input/';
 input_file_name = 'Mary Had a Little Lamb.jpg';
+training_data_folder = 'train_simple/';
 display_intermediate_result = true;
 
 %% Staff lines detection and removal
@@ -11,32 +9,30 @@ file_path = [input_folder input_file_name];
 [cleaned_image, lines] = extractLines(file_path, display_intermediate_result);
 
 %% Musical notation segmentation
-boundaries = segmentImage(cleaned_image, lines, display_intermediate_result);
+[boundaries, segmented_images] = segmentImage(cleaned_image, lines, display_intermediate_result);
+
+%% Get training data
+training_images = readTrainingData(training_data_folder);
 
 %% Musical notation classification
-width = ceil(sqrt(segment_index));
 figure
-for segment_index = 1 : size(boundaries, 1)
-    min_x = boundaries(segment_index, 1);
-    max_x = boundaries(segment_index, 2);
-    min_y = boundaries(segment_index, 3);
-    max_y = boundaries(segment_index, 4);
-    notation_segment = cleaned_image(min_y : max_y, min_x : max_x);
+for segment_index = 1 : size(segmented_images, 2)
+    segmented_image = segmented_images{segment_index};
 
-    [match, graph, rate] = calculateDistance(notation_segment, simple_train);
+    [match, graph, rate] = calculateDistance(segmented_image, training_images);
     if match ~= -1
         if mod(segment_index, 25) == 0
             figure
         end
         subplot(5, 5, mod(segment_index, 25)+1);
-        imshow([notation_segment, graph]);
+        imshow([segmented_image, graph]);
         title([num2str(segment_index),' rate: ',sprintf('%.2f', rate)]);
     else
         if mod(segment_index, 25) == 0
             figure
         end
         subplot(5, 5, mod(segment_index, 25)+1);
-        imshow(notation_segment);
+        imshow(segmented_image);
         title('Not Note');
     end
 

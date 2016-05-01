@@ -7,13 +7,15 @@
 %   boundaries (matrix): X-by-4 matrix of the segmentation boundaries.
 %       The matrix columns contain the following values in this order:
 %       min x, max x, min y, and max y.
+%   segmented_images (cell array): Collection of segmented images.
 
-function boundaries = segmentRow(row_image)
+function [boundaries, segmented_images] = segmentRow(row_image)
 
 row_image_height = size(row_image, 1);
 row_pixel_sum = sum(row_image, 1);
 
 boundaries = double.empty;
+segmented_images = {};
 black_pixel_found = false;
 
 for column = 1 : size(row_pixel_sum, 2)
@@ -56,5 +58,6 @@ for column = 1 : size(row_pixel_sum, 2)
         end
 
         boundaries = [boundaries; min_x max_x min_y max_y];
+        segmented_images{end + 1} = row_image(min_y : max_y, min_x : max_x);
     end
 end
