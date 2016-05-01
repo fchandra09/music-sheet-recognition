@@ -1,8 +1,8 @@
 function [match, graph, rate] = calculateDistance(img, train_data)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-data_size = size(train_data);
-nfiles = data_size(2);
+
+nfiles = size(train_data, 2);
 scores = zeros(nfiles, 1); 
 [img_h, img_w] = size(img);
 
