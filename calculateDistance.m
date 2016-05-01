@@ -1,22 +1,13 @@
-function [match, graph] = calculateDistance(img, level)
+function [match, graph, rate] = calculateDistance(img, train_data)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-if strcmp('simple', level)
-imagefiles = dir('train_simple/*.jpeg');  
-folder = 'train_simple/';     
-else
-imagefiles = dir('training_data/*.jpeg');  
-folder = 'training_data/'; 
-end
-
-nfiles = length(imagefiles); 
+data_size = size(train_data);
+nfiles = data_size(2);
 scores = zeros(nfiles, 1); 
 [img_h, img_w] = size(img);
-%image = im2double(rgb2gray(imread(img)));
+
 for i = 1:nfiles
-	target_img = im2double(rgb2gray(imread([folder, num2str(i), '.jpeg'])));
-    target_img (target_img < 0.9) = 0;
-    target_img (target_img >= 0.9) = 1;
+    target_img = train_data{i};
     [h, w] = size(target_img); 
     input_resize = imresize(img, [h, w]); 
     input_resize (input_resize < 0.9) = 0;
@@ -34,16 +25,16 @@ for i = 1:nfiles
 end 
     [M, I] = max(scores); 
     %disp(scores);
-    if I == 11 && img_h > img_w*3
+    if I == 11 && img_h > img_w*3 || M < 0.8
         match = -1;
-        disp('end of trunk');
+        %disp('not note');
         graph = 1;
+        rate = 0;
     else
-        disp(['The closest match is image number ', num2str(I), ' with score ', num2str(M)]); 
+        %disp(['The closest match is image number ', num2str(I), ' with score ', num2str(M)]); 
         match = I;
-        corr = im2double(rgb2gray(imread([folder, num2str(I), '.jpeg'])));
-        %figure (1), imshow([img, imresize(corr, [img_h, img_w])]);
-        graph = imresize(corr, [img_h, img_w]);
+        graph = imresize(train_data{I}, [img_h, img_w]);
+        rate = M;
     end
     
 end
