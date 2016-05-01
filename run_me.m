@@ -1,6 +1,6 @@
 % Input
 input_folder = 'input/';
-input_file_name = 'Twinkle Twinkle Little Star.jpg';
+input_file_name = 'Mary Had a Little Lamb.jpg';
 display_intermediate_result = true;
 
 % Staff lines detection and removal
@@ -19,16 +19,16 @@ for segment_index = 1 : size(boundaries, 1)
     min_y = boundaries(segment_index, 3);
     max_y = boundaries(segment_index, 4);
     notation_segment = cleaned_image(min_y : max_y, min_x : max_x);
-    
+
     [match, graph] = calculateDistance(notation_segment, 'simple');
     if match ~= -1
         if mod(segment_index, 25) == 0
             figure
         end
-        %display(mod(segment_index, 25));
         subplot(5, 5, mod(segment_index, 25)+1);
         imshow([notation_segment, graph]);
+        title(segment_index);
     end
-    
+
     % notation_type = functionName(notation_segment);
 end
