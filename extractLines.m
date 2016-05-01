@@ -32,20 +32,18 @@ for row = 1 : image_height
 
     % Count the number of black pixels on the row
     for column = 1 : image_width
-        if (image(row, column) == 0)
+        if image(row, column) == 0
             black_pixel_count = black_pixel_count + 1;
         end
-    end  
+    end
 
     % If the black pixel count is larger than half of the image, assume
     % that it is a staff line
     if black_pixel_count > image_width * 0.5
 
         % Remove staff line
-        for column = 1 : image_width
-            image(row, column) = 1;
-        end
-        
+        image(row, 1 : image_width) = 1;
+
         % Fill in the gap caused by the staff line removal
         for column = 1 : image_width
             if image(row - 1, column) == 0 && image(row + 1, column) == 0

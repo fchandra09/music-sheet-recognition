@@ -12,9 +12,9 @@
 %   boundaries (matrix): X-by-4 matrix of the segmentation boundaries.
 %       The matrix columns contain the following values in this order:
 %       min x, max x, min y, and max y.
-%   segmented_images (cell array): Collection of segmented images.
+%   notation_images (cell array): Collection of notation images.
 
-function [boundaries, segmented_images] = segmentImage(image, staff_lines, display_intermediate_result)
+function [boundaries, notation_images] = segmentImage(image, staff_lines, display_intermediate_result)
 
 [image_height, image_width] = size(image);
 
@@ -30,7 +30,7 @@ for column = 1 : (size(staff_lines, 2) - 1)
 end
 
 boundaries = double.empty;
-segmented_images = {};
+notation_images = {};
 
 % Segment image into rows and get the boundaries for each row
 for row = 1 : size(staff_lines, 1)
@@ -44,14 +44,14 @@ for row = 1 : size(staff_lines, 1)
         row_max_y = image_height;
     end
 
-    [row_boundaries, row_segmented_images] = segmentRow(image(row_min_y : row_max_y, :));
+    [row_boundaries, row_notation_images] = segmentRow(image(row_min_y : row_max_y, :));
 
     % Adjust y-coordinates corresponding to the image coordinate
     row_boundaries(:, 3) = row_boundaries(:, 3) + row_min_y - 1;
     row_boundaries(:, 4) = row_boundaries(:, 4) + row_min_y - 1;
 
     boundaries = [boundaries; row_boundaries];
-    segmented_images = cat(2, segmented_images, row_segmented_images);
+    notation_images = cat(2, notation_images, row_notation_images);
 end
 
 if display_intermediate_result
