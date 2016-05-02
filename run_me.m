@@ -1,6 +1,6 @@
 %% Input
 input_folder = 'input/';
-input_file_name = 'Twinkle Twinkle Little Star.jpg';
+input_file_name = 'Mary Had a Little Lamb.jpg';
 training_data_folder = 'train_simple/';
 display_intermediate_result = true;
 
@@ -42,4 +42,3 @@ end
 %% Convert notes to song
 [song, note_length] = convert_song(notes_match, lines, center_points);
 disp(song);
-disp(note_length);
