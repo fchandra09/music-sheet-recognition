@@ -16,24 +16,30 @@ training_images = readTrainingData(training_data_folder);
 
 %% Musical notation classification
 figure
+notes_match = zeros(size(notation_images, 2));
 for segment_index = 1 : size(notation_images, 2)
     notation_image = notation_images{segment_index};
     center_point = center_points(segment_index, :);
-
     [match, graph, rate] = calculateDistance(notation_image, training_images);
-    if match ~= -1
-        if mod(segment_index, 25) == 0
-            figure
-        end
-        subplot(5, 5, mod(segment_index, 25)+1);
-        imshow([notation_image, graph]);
-        title([num2str(segment_index),' rate: ',sprintf('%.2f', rate)]);
-    else
-        if mod(segment_index, 25) == 0
-            figure
-        end
-        subplot(5, 5, mod(segment_index, 25)+1);
-        imshow(notation_image);
-        title('Not Note');
-    end
+    notes_match(segment_index) = match;
+%     if match ~= -1
+%         if mod(segment_index, 25) == 0
+%             figure
+%         end
+%         subplot(5, 5, mod(segment_index, 25)+1);
+%         imshow([notation_image, graph]);
+%         title([num2str(segment_index),' rate: ',sprintf('%.2f', rate)]);
+%     else
+%         if mod(segment_index, 25) == 0
+%             figure
+%         end
+%         subplot(5, 5, mod(segment_index, 25)+1);
+%         imshow(notation_image);
+%         title('Not Note');
+%     end
 end
+
+%% Convert notes to song
+[song, note_length] = convert_song(notes_match, lines, center_points);
+disp(song);
+disp(note_length);
