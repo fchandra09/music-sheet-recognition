@@ -66,8 +66,8 @@ for column = 1 : size(row_pixel_sum, 2)
 
         % Adjust the center point coordinate corresponding to the row image
         % coordinate.
-        center_point(1) = center_point(1) + min_x - 1;
-        center_point(2) = center_point(2) + min_y - 1;
+        center_point_x = center_point_x + min_x - 1;
+        center_point_y = center_point_y + min_y - 1;
 
         boundaries = [boundaries; min_x max_x min_y max_y];
         notation_images{end + 1} = notation_image;
