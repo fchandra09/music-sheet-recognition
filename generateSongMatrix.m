@@ -7,8 +7,8 @@ for song_index = 1 : size(song, 2)
     note = song(song_index);
     note_length = length(song_index);
     duration = note_length * single_duration;
-disp(note);disp(strcmp(note, 'Q'));
-    if strcmp(note, 'Q') == 0
+
+    if strcmp(note, 'Q') == 1
         note_matrix = zeros(duration, 1);
     else
         note_index = strcmp(note, available_notes);
