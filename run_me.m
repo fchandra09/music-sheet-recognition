@@ -1,6 +1,6 @@
 %% Input
 input_folder = 'input/';
-input_file_name = 'Mary Had a Little Lamb.jpg';
+input_file_name = 'Twinkle Twinkle Little Star.jpg';
 training_data_folder = 'train_simple/';
 display_intermediate_result = true;
 
@@ -9,7 +9,7 @@ file_path = [input_folder input_file_name];
 [cleaned_image, lines] = extractLines(file_path, display_intermediate_result);
 
 %% Musical notation segmentation
-[boundaries, notation_images] = segmentImage(cleaned_image, lines, display_intermediate_result);
+[boundaries, notation_images, center_points] = segmentImage(cleaned_image, lines, display_intermediate_result);
 
 %% Get training data
 training_images = readTrainingData(training_data_folder);
@@ -18,6 +18,7 @@ training_images = readTrainingData(training_data_folder);
 figure
 for segment_index = 1 : size(notation_images, 2)
     notation_image = notation_images{segment_index};
+    center_point = center_points(segment_index, :);
 
     [match, graph, rate] = calculateDistance(notation_image, training_images);
     if match ~= -1

@@ -8,14 +8,17 @@
 %       The matrix columns contain the following values in this order:
 %       min x, max x, min y, and max y.
 %   notation_images (cell array): Collection of notation images.
+%   center_points (matrix): X-by-2 matrix of the center points. The matrix
+%       columns contain the following values in this order: x and y.
 
-function [boundaries, notation_images] = segmentRow(row_image)
+function [boundaries, notation_images, center_points] = segmentRow(row_image)
 
 row_image_height = size(row_image, 1);
 row_pixel_sum = sum(row_image, 1);
 
 boundaries = double.empty;
 notation_images = {};
+center_points = double.empty;
 black_pixel_found = false;
 
 for column = 1 : size(row_pixel_sum, 2)
@@ -58,7 +61,16 @@ for column = 1 : size(row_pixel_sum, 2)
 
         % TODO: If the segment contains more than one notes, separate them.
 
+        % Calculate center point
+        [center_point_x, center_point_y] = calculateCenterPoint(notation_image);
+
+        % Adjust the center point coordinate corresponding to the row image
+        % coordinate.
+        center_point(1) = center_point(1) + min_x - 1;
+        center_point(2) = center_point(2) + min_y - 1;
+
         boundaries = [boundaries; min_x max_x min_y max_y];
         notation_images{end + 1} = notation_image;
+        center_points = [center_points; center_point_x center_point_y];
     end
 end
