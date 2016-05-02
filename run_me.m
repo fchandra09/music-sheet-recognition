@@ -1,8 +1,8 @@
 %% Input
 input_folder = 'input/';
-input_file_name = 'Mary Had a Little Lamb.jpg';
+input_file_name = 'Twinkle Twinkle Little Star.jpg';
 training_data_folder = 'train_simple/';
-display_intermediate_result = true;
+display_intermediate_result = false;
 
 %% Staff lines detection and removal
 file_path = [input_folder input_file_name];
@@ -15,31 +15,23 @@ file_path = [input_folder input_file_name];
 training_images = readTrainingData(training_data_folder);
 
 %% Musical notation classification
-figure
 notes_match = zeros(size(notation_images, 2));
 for segment_index = 1 : size(notation_images, 2)
     notation_image = notation_images{segment_index};
     center_point = center_points(segment_index, :);
     [match, graph, rate] = calculateDistance(notation_image, training_images);
     notes_match(segment_index) = match;
-%     if match ~= -1
-%         if mod(segment_index, 25) == 0
-%             figure
-%         end
-%         subplot(5, 5, mod(segment_index, 25)+1);
-%         imshow([notation_image, graph]);
-%         title([num2str(segment_index),' rate: ',sprintf('%.2f', rate)]);
-%     else
-%         if mod(segment_index, 25) == 0
-%             figure
-%         end
-%         subplot(5, 5, mod(segment_index, 25)+1);
-%         imshow(notation_image);
-%         title('Not Note');
-%     end
 end
 
 %% Convert notes to song
 [song, note_length, c_count, g_count] = convert_song(notes_match, lines, center_points);
-disp(c_count);
-disp(g_count);
+
+if g_count == 0
+    song_g = [];
+    note_length_g = [];
+else
+    song_g = song(2,1:g_count);
+    note_length_g = note_length(2,1:g_count);
+end
+
+playSong(song(1,1:c_count), note_length(1,1:c_count), song_g, note_length_g);
