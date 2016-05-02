@@ -1,6 +1,6 @@
 %% Input
 input_folder = 'input/';
-input_file_name = 'Love Me Tender.jpg';%'Love Me Tender.jpg';
+input_file_name = 'Mary Had A Little Lamb.jpg';%'Love Me Tender.jpg';
 training_data_folder = 'train_simple/';
 display_intermediate_result = false;
 
@@ -23,14 +23,14 @@ for segment_index = 1 : size(notation_images, 2)
     notes_match(segment_index) = match;
     if display_intermediate_result
         if match ~= -1
-             if mod(segment_index, 25) == 0
+             if mod(segment_index, 25) == 0 || segment_index == 1
                  figure
              end
              subplot(5, 5, mod(segment_index, 25)+1);
              imshow([notation_image, graph]);
              title([num2str(segment_index),' rate: ',sprintf('%.2f', rate)]);
          else
-             if mod(segment_index, 25) == 0
+             if mod(segment_index, 25) == 0 || segment_index == 1
                  figure
              end
              subplot(5, 5, mod(segment_index, 25)+1);
@@ -42,7 +42,7 @@ end
 
 %% Convert notes to song
 [song, note_length, c_count, g_count] = convert_song(notes_match, lines, center_points);
-disp(song);
+
 if g_count == 0
     song_g = [];
     note_length_g = [];

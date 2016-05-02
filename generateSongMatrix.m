@@ -22,5 +22,5 @@ for song_index = 1 : size(song, 2)
         note_matrix = generateNoteMatrix(note_index, duration);
     end
 
-    song_matrix = [song_matrix; note_matrix; zeros(75, 1)];
+    song_matrix = [song_matrix; note_matrix; zeros(note_length * 75, 1)];
 end
