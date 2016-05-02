@@ -40,5 +40,6 @@ for segment_index = 1 : size(notation_images, 2)
 end
 
 %% Convert notes to song
-[song, note_length] = convert_song(notes_match, lines, center_points);
-disp(song);
+[song, note_length, c_count, g_count] = convert_song(notes_match, lines, center_points);
+disp(c_count);
+disp(g_count);

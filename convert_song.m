@@ -1,4 +1,4 @@
-function [song, note_length] = convert_song(notes_match, lines, center_points)
+function [song, note_length, c_count, g_count] = convert_song(notes_match, lines, center_points)
 length = size(notes_match, 2);
 clef = 1;
 note_counter(1) = 1;
@@ -82,5 +82,6 @@ for i = 1:length
       end
    end
 end
-
+c_count = note_counter(1)-1;
+g_count = note_counter(2)-1;
 end
