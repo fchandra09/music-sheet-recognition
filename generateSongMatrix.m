@@ -1,4 +1,9 @@
-function song_matrix = generateSongMatrix(song, length, available_notes)
+function song_matrix = generateSongMatrix(song, length)
+
+available_notes = {'--C' '--C#' '--D' '--D#' '--E' '--F' '--F#' '--G' '--G#' '--A' '--A#' '--B' ...
+    '-C' '-C#' '-D' '-D#' '-E' '-F' '-F#' '-G' '-G#' '-A' '-A#' '-B' ...
+    'C' 'C#' 'D' 'D#' 'E' 'F' 'F#' 'G' 'G#' 'A' 'A#' 'B' ...
+    '+C' '+C#' '+D' '+D#' '+E' '+F' '+F#' '+G' '+G#' '+A' '+A#' '+B'};
 
 single_duration = 4096;
 song_matrix = [];
