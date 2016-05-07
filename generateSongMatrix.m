@@ -5,7 +5,7 @@ available_notes = {'--C' '--C#' '--D' '--D#' '--E' '--F' '--F#' '--G' '--G#' '--
     'C' 'C#' 'D' 'D#' 'E' 'F' 'F#' 'G' 'G#' 'A' 'A#' 'B' ...
     '+C' '+C#' '+D' '+D#' '+E' '+F' '+F#' '+G' '+G#' '+A' '+A#' '+B'};
 
-single_duration = 4096;
+single_duration = 3072;
 song_matrix = [];
 
 for song_index = 1 : size(song, 2)
@@ -22,5 +22,5 @@ for song_index = 1 : size(song, 2)
         note_matrix = generateNoteMatrix(note_index, duration);
     end
 
-    song_matrix = [song_matrix; note_matrix; zeros(note_length * 75, 1)];
+    song_matrix = [song_matrix; note_matrix; zeros(note_length * 72, 1)];
 end
