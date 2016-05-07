@@ -8,29 +8,33 @@
 %   match (double): the matching notes
 %   graph (matrix): the matching training image
 %   rate (double): the matching rate
-function [match, graph, rate] = calculateDistance(img, train_data)
+function [match, graph, rate] = calculateDistance(img, train_data, unit)
 
 nfiles = size(train_data, 2);
 scores = zeros(nfiles, 1); 
 [img_h, img_w] = size(img);
 
-for i = 1:nfiles
-    target_img = train_data{i};
-    [h, w] = size(target_img); 
-    input_resize = imresize(img, [h, w]); 
-    input_resize (input_resize < 0.9) = 0;
-    input_resize (input_resize >= 0.9) = 1;  
-    count = 0; 
-    for x = 1:h
-        for y = 1:w
-            if target_img(x, y) == input_resize(x, y)
-               count = count+1; 
+if (img_h < unit) && (img_w < unit)
+    match = 100;
+    graph = img;
+    rate = 0.99;
+else
+    for i = 1:nfiles
+        target_img = train_data{i};
+        [h, w] = size(target_img); 
+        input_resize = imresize(img, [h, w]); 
+        input_resize (input_resize < 0.9) = 0;
+        input_resize (input_resize >= 0.9) = 1;  
+        count = 0; 
+        for x = 1:h
+            for y = 1:w
+                if target_img(x, y) == input_resize(x, y)
+                   count = count+1; 
+                end
             end
         end
-    end
-    scores(i, 1) = count/(h*w); 
-
-end 
+        scores(i, 1) = count/(h*w); 
+    end 
     [M, I] = max(scores); 
     %disp(scores);
     if I == 11 && img_h > img_w*3 || M < 0.8
@@ -44,6 +48,7 @@ end
         graph = imresize(train_data{I}, [img_h, img_w]);
         rate = M;
     end
+end
     
 end
 

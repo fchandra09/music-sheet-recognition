@@ -33,6 +33,13 @@ for i = 1:length
           note_counter(clef) = note_counter(clef)+1;    
           flat = false;
           sharp = false;
+      elseif notes_match(i) == 21 || notes_match(i) == 22 || notes_match(i) == 23 || notes_match(i) == 20
+          note_length(clef, note_counter(clef)) = 0.5;
+          num = round((centers(line_counter)-center_points(i, 2))/unit);
+          song(clef, note_counter(clef)) = convert(num, clef, notes_1, notes_2, flat, sharp);
+          note_counter(clef) = note_counter(clef)+1;    
+          flat = false;
+          sharp = false;
       elseif notes_match(i) == 11
           upper_line = centers(line_counter)+unit*2;
           if upper_line-center_points(i, 2) < center_points(i, 2)-centers(line_counter)
@@ -66,6 +73,8 @@ for i = 1:length
           flat = true;
       elseif notes_match(i) == 19
           
+      elseif notes_match(i) == 100
+          note_length(clef, note_counter(clef)-1) = note_length(clef, note_counter(clef)-1)*1.5;
       end
    end
 end
