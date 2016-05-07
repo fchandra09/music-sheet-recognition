@@ -12,7 +12,7 @@ function [center_point_x, center_point_y] = calculateCenterPoint(notation_image)
 [notation_image_height, notation_image_width] = size(notation_image);
 
 % Try to remove the vertical line on a musical notation
-if notation_image_height > notation_image_width*2.5
+if notation_image_height > notation_image_width*2
     for row = 1 : notation_image_height
         black_pixel_count = 0;
 
@@ -25,14 +25,15 @@ if notation_image_height > notation_image_width*2.5
 
         % If the black pixel count is smaller than a fifth of the image, assume
         % that it is a vertical line
-        if black_pixel_count < notation_image_width / 3
+        if black_pixel_count < notation_image_width / 2
 
             % Remove vertical line
             notation_image(row, 1 : notation_image_width) = 1;
         end
+        
     end
 end
-
+%figure, imshow(notation_image);
 min_y = 1;
 max_y = notation_image_height;
 column_pixel_sum = sum(notation_image, 2);
